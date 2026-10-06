@@ -1,0 +1,20 @@
+# MATLAB Autosave and temporary files
+*.asv
+*.m~
+*.slxc
+*.mex*
+*.p
+
+# Data and figures (optional: keep commented out if you want to upload data/figures)
+# *.mat
+# *.fig
+
+# MATLAB Code Analyzer / Performance files
+*.rpt
+slprj/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+"ADD MATLAB gitignore"
