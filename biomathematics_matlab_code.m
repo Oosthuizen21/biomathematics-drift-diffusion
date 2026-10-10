@@ -1,51 +1,39 @@
-clc, clearvars, close all
+clc; clearvars; close all;
 
-data = readtable('P001_data.xlsx');
+data = readtable('P001_data.xlsx'); %loads excel spreadsheats
 
-real_rts = data.RT_seconds;
-accuracy = data.Accuracy;
-difficulty = data.Difficulty;
+dr = [1.8, 1.0, 0.4]; %pre-assigned drift rates
+diffs = {'Easy', 'Medium', 'Hard'}; 
+cols = {'#2ca02c', '#ff7f0e', '#d62728'};
 
-%Parameters
+dt = 0.002; %simulated time step
 a = 1.2;
-b = -a;
-dt = 0.002;
-max_time = max(real_rts);
+max_t = 2.5; %maximum duration of the trial (shortened to get clear graphs)
 
-drift_rates = [1.8, 1.0, 0.4];
-diff_labels = {'Easy', 'Medium', 'Hard'};
-path_colors = {'#2ca02c', '#ff7f0e', '#d62728'};
+%generates 4 different figures for the simulated blocks in experiment
+for i = 1:4
+    figure('Color', 'w', 'Position', ...
+        [100 + 50*(i-1), 100 + 50*(i-1), 750, 500]); 
+    hold on;
+    yline([-a, a], 'k--', 'HandleVisibility', 'off');%upper and lower boundary
+    yline(0, 'Color', [.6 .6 .6], 'HandleVisibility', 'off');
+    
+    for j = 1:3
+        x = 0; 
+        history = 0; 
 
-figure('Color', 'w'); hold on;
-
-yline(a, 'b--');
-yline(b, 'b--');
-yline(0, 'b', 'Starting Point', 'Color', [0.5 0.5 0.5]);
-
-for idx = 1:3
-    v = drift_rates(idx);
-
-    x = 0;
-    t_idx = 1;
-    path_history = [x];
-
-    while abs(x) < a && (t_idx * dt) < max_time
-
-        x = x + v * dt + 1.0 * sqrt(dt) * randn();
-        path_history = [path_history, x];
-        t_idx = t_idx + 1; % Increment time index
+        %updates accumulated evidence to when boundary is reached
+        while abs(x) < a && length(history)*dt < max_t
+            x = x + dr(j)*dt + sqrt(dt)*randn(); 
+            history(end+1) = x;
+        end
+        plot(0:dt:(length(history)-1)*dt, history, ...
+            'LineWidth', 2, 'Color', cols{j}, 'DisplayName', diffs{j});
     end
-
-    trail_timeline = 0:dt:(length(path_history) - 1)*dt;
-    plot(trail_timeline, path_history, 'LineWidth', 2, 'Color', ...
-        path_colors{idx}, 'DisplayName', ...
-        [diff_labels{idx} ' Simulated Trial'])
+    
+    title(sprintf('Block %d (Uniform Scaling)', i), ...
+        'FontSize', 12, 'FontWeight', 'bold');
+    xlabel('Time (seconds)'); ylabel('Evidence accumulation');
+    xlim([0, max_t]); ylim([-a-0.3, a+0.3]);
+    grid on; legend('Location', 'southeast'); hold off;
 end
-
-title("Speed test distribution vs Condition-based results");
-xlabel("Time in seconds");
-ylabel("Evidence accumulation");
-xlim([0 max_time]);
-ylim([b - 0.3, a + 0.3]);
-
-hold off;
