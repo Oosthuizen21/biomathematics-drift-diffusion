@@ -1,6 +1,6 @@
 clc; clearvars; close all;
 
-data = readtable('P001_data.xlsx'); %loads excel spreadsheats
+data = readtable('bb591b8b5f31c436aac535c6a7e9cc66_data (1).xlsx'); %loads excel spreadsheats
 
 dr = [1.8, 1.0, 0.4]; %pre-assigned drift rates
 diffs = {'Easy', 'Medium', 'Hard'}; 
@@ -8,7 +8,7 @@ cols = {'#2ca02c', '#ff7f0e', '#d62728'};
 
 dt = 0.002; %simulated time step
 a = 1.2;
-max_t = 2.5; %maximum duration of the trial (shortened to get clear graphs)
+max_t = 3; %simulation time limit
 
 %generates 4 different figures for the simulated blocks in experiment
 for i = 1:4
