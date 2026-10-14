@@ -16,7 +16,7 @@ The model represents evidence accumulation to a decision boundary, using differe
 ## Installation and Usage:
 
 1. Download this repository
-2. Ensure that both the MATLAB script and Excel data spreadsheet (P001_data new) are saved in the same folder
+2. Ensure that both the MATLAB script and Excel data spreadsheet (bb591b8b5f31c436aac535c6a7e9cc66_data (1).xlsx) are saved in the same folder
 3. Open the MATLAB project folder
 4. Run the code
 
