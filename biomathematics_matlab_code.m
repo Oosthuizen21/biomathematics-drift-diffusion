@@ -8,7 +8,7 @@ cols = {'#2ca02c', '#ff7f0e', '#d62728'};
 
 dt = 0.002; %simulated time step
 a = 1.2;
-max_t = 3; %simulation time limit
+max_t = 4; %simulation time limit
 
 %generates 4 different figures for the simulated blocks in experiment
 for i = 1:4
